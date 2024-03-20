@@ -17,21 +17,20 @@ for y in range(boxSide, SCREEN_HEIGHT + 1, boxSide):
 
 boxPos = boxCenter.keys()
 
-running = True
-move = True
-
-pygame.init()
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("GAME XOX")
-screen.fill("white")
-turn = 0
-
-font = pygame.font.SysFont("freesansbold.ttf", 64)
-
-drawLines(screen, SCREEN_WIDTH, boxSide)
-drawNum(screen, font=font, boxs=boxPos)  
-
 def main():
+    running = True
+    move = True
+    
+    pygame.init()
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    pygame.display.set_caption("GAME XOX")
+    screen.fill("white")
+    turn = 0
+
+    font = pygame.font.SysFont("freesansbold.ttf", 64)
+
+    drawLines(screen, SCREEN_WIDTH, boxSide)
+    drawNum(screen, font=font, boxs=boxPos) 
     while running:
         keys = pygame.key.get_pressed()
         if (keys[K_q]):
@@ -47,8 +46,6 @@ def main():
         pygame.display.update()
 
     pygame.quit()
-
-print(__name__)
 
 if __name__ == "__main__":
     main()
