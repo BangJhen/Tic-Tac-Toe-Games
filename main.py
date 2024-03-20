@@ -31,18 +31,24 @@ font = pygame.font.SysFont("freesansbold.ttf", 64)
 drawLines(screen, SCREEN_WIDTH, boxSide)
 drawNum(screen, font=font, boxs=boxPos)  
 
-while running:
-    keys = pygame.key.get_pressed()
-    if (keys[K_q]):
-            running = False
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            running = False
-        if event.type == MOUSEBUTTONDOWN and move:
-            turn += clicked(screen, event.pos, boxCenter, turn)
+def main():
+    while running:
+        keys = pygame.key.get_pressed()
+        if (keys[K_q]):
+                running = False
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                running = False
+            if event.type == MOUSEBUTTONDOWN and move:
+                turn += clicked(screen, event.pos, boxCenter, turn)
 
-    move = isWin(boxCenter, move)
+        move = isWin(boxCenter, move)
 
-    pygame.display.update()
+        pygame.display.update()
 
-pygame.quit()
+    pygame.quit()
+
+print(__name__)
+
+if __name__ == "__main__":
+    main()
