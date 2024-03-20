@@ -50,10 +50,10 @@ def isWin(boxAreas : dict, move):
     
     for rows in range(0, 3):
         if (boxValueList[rows] == boxValueList[rows + 3] == boxValueList[rows + 6] == "O"):
-            print(f"O Was Win")
+            print(f"Player O Was Win")
             return False
         if (boxValueList[rows] == boxValueList[rows + 3] == boxValueList[rows + 6] == "X"):
-            print(f"X Was Win")
+            print(f"Player X Was Win")
             return False
     for cols in range(0, 7, 3):
         if (boxValueList[cols] == boxValueList[cols + 1] == boxValueList[cols + 2] == "O"):
@@ -64,15 +64,15 @@ def isWin(boxAreas : dict, move):
             return False
         
     if (boxValueList[0] == boxValueList[4] == boxValueList[8] == "O"):
-        print(f"O Was Win")
+        print(f"Player O Was Win")
         return False
     elif (boxValueList[0] == boxValueList[4] == boxValueList[8] == "X"):
-        print(f"X Was Win")
+        print(f"Player X Was Win")
         return False
     elif (boxValueList[2] == boxValueList[4] == boxValueList[6] == "O"):
-        print(f"O Was Win")
+        print(f"Player O Was Win")
         return False
     elif (boxValueList[2] == boxValueList[4] == boxValueList[6] == "X"):
-        print(f"X Was Win")
+        print(f"Player X Was Win")
         return False
     return True
