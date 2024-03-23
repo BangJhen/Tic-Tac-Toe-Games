@@ -1,6 +1,5 @@
 import pygame
 import numpy as np
-import time
 
 # BoxCenter
 def getBoxCenter(screen_max : int, boxSide : int):
@@ -96,14 +95,25 @@ def isWin(surface, boxAreas : object) -> bool:
     
     return True
 
-def playerWin(surface, player) -> None:
+def playerWin(surface, player : str) -> None:
     font = pygame.font.SysFont("freesansbold.ttf", 128)
     text = font.render(f"Player {player} WIN", True, "red")
     textRect = text.get_rect()
     textRect.center = (666//2 , 666//2)
     
     surface.blit(text, textRect)
-
-
     
+def getTryAgain(surface ,pos : list):
+    center = 222
+    font = pygame.font.SysFont("freesansbold.ttf", 64)
+    
+    pygame.draw.rect(surface=surface, color="red", rect=(center - 50, center + 200, center + 100, 150))
+    surface.blit(font.render(f"TRY AGAIN", True, "white"), (center - 12, center + 255))
+    
+    posAxis = pos[0]
+    posOrd = pos[1]
+    if ((posAxis >= 175 and posAxis <= 495) and (posOrd >= 425 and posOrd <= 570)):
+        return False
+    return True
+        
     
