@@ -1,4 +1,5 @@
 from config import *
+import numpy as np
 import pygame
 from pygame.locals import *
 
@@ -10,12 +11,11 @@ WHITE = [255, 255, 255]
 
 # Position
 boxSide = 666 // 3
-boxCenter = {}
-for y in range(boxSide, SCREEN_HEIGHT + 1, boxSide):
-    for x in range(boxSide,SCREEN_WIDTH + 1, boxSide):
-        boxCenter[x - (boxSide // 2), y - (boxSide // 2)] = ""
+boxCenter = np.empty((3,3), dtype=object)
+for y, posY in enumerate(range(boxSide, SCREEN_HEIGHT + 1, boxSide)):
+    for x, posX in enumerate(range(boxSide,SCREEN_WIDTH + 1, boxSide)):
+        boxCenter[y,x] = np.array([posX - (boxSide // 2), posY - (boxSide // 2), ""])
 
-boxPos = boxCenter.keys()
 
 def main():
     running = True
@@ -30,7 +30,7 @@ def main():
     font = pygame.font.SysFont("freesansbold.ttf", 64)
 
     drawLines(screen, SCREEN_WIDTH, boxSide)
-    drawNum(screen, font=font, boxs=boxPos) 
+    drawNum(screen, font=font, boxs=boxCenter) 
     while running:
         keys = pygame.key.get_pressed()
         if (keys[K_q]):
@@ -41,11 +41,13 @@ def main():
             if event.type == MOUSEBUTTONDOWN and move:
                 turn += clicked(screen, event.pos, boxCenter, turn)
 
-        move = isWin(boxCenter, move)
+        # move = isWin(boxCenter, move)
 
         pygame.display.update()
 
     pygame.quit()
+
+
 
 if __name__ == "__main__":
     main()

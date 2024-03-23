@@ -1,4 +1,5 @@
 import pygame
+import numpy as np
 
 # Lines
 def drawLines(surface, screen_max : int, boxArea : int) -> None:
@@ -7,40 +8,49 @@ def drawLines(surface, screen_max : int, boxArea : int) -> None:
         pygame.draw.line(surface, "black", (i, 0), (i, screen_max), 6)
 
 # Draw X
-def drawX(surface, box : list) -> None:
-    pygame.draw.line(surface, "black", (box[0] - 70, box[1] + 70), (box[0] + 70, box[1] - 70), 8)
-    pygame.draw.line(surface, "black", (box[0] - 70, box[1] - 70), (box[0] + 70, box[1] + 70), 8)
+def drawX(surface, box) -> None:
+    boxAxis = int(box[0])
+    boxOrd = int(box[1])
+    pygame.draw.line(surface, "black", (boxAxis - 70, boxOrd + 70), (boxAxis + 70, boxOrd - 70), 8)
+    pygame.draw.line(surface, "black", (boxAxis - 70, boxOrd - 70), (boxAxis + 70, boxOrd + 70), 8)
 
 # Draw Circle (O)
-def drawO(surface, box : list[int, int]) -> None:
-    pygame.draw.circle(surface, "black", (box[0] , box[1] ), 90, 5)
+def drawO(surface, box) -> None:
+    boxAxis = int(box[0])
+    boxOrd = int(box[1])
+    pygame.draw.circle(surface, "black", (boxAxis , boxOrd), 90, 5)
     
 # Draw Number
-def drawNum(surface, font, boxs : dict) -> None:
-    for i, box in enumerate(boxs):
-        text = font.render(str(i + 1), True, pygame.Color(0,0,0,128))
-        textRect = text.get_rect()
-        textRect.center = (box[0], box[1])
-        
-        surface.blit(text, textRect)
-        
-def clicked(surface ,pos : list, boxAreas : dict, player):
-    for key, value in (boxAreas.items()):
-        if (value == "X" or value == "O"):
-            continue
-        boxAxis = key[0]
-        boxOrd = key[1]
-        
-        posAxis = pos[0]
-        posOrd = pos[1]
-        if (posAxis > (boxAxis - 111) and posAxis < (boxAxis + 111)) and (posOrd > (boxOrd - 111) and posOrd < (boxOrd + 111)):
-            if (player % 2 == 0):
-                drawO(surface=surface, box=key)
-                boxAreas[key] = "O"
-            elif (player % 2 == 1):
-                drawX(surface=surface, box=key)
-                boxAreas[key] = "X"
-            return 1
+def drawNum(surface, font, boxs) -> None:
+    nums = 1
+    for rows in (boxs):
+        for cols in (rows):
+            text = font.render(str(nums), True, pygame.Color(0,0,0,128))
+            textRect = text.get_rect()
+            textRect.center = (int(cols[0]), int(cols[1]))
+            
+            surface.blit(text, textRect)
+            nums += 1
+    
+def clicked(surface ,pos : list, boxAreas : object, player):
+    for rows in boxAreas:
+        for cols in rows:
+            value = cols[2]
+            if (value == "X" or value == "O"):
+                continue
+            boxAxis = int(cols[0])
+            boxOrd = int(cols[1])
+            
+            posAxis = pos[0]
+            posOrd = pos[1]
+            if (posAxis > (boxAxis - 111) and posAxis < (boxAxis + 111)) and (posOrd > (boxOrd - 111) and posOrd < (boxOrd + 111)):
+                if (player % 2 == 0):
+                    drawO(surface=surface, box=cols)
+                    cols[2] = "O"
+                elif (player % 2 == 1):
+                    drawX(surface=surface, box=cols)
+                    cols[2] = "X"
+                return 1
     return 0
 
 def isWin(boxAreas : dict, move):
