@@ -1,5 +1,15 @@
 import pygame
 import numpy as np
+import time
+
+# BoxCenter
+def getBoxCenter(screen_max : int, boxSide : int):
+    boxCenter = np.empty((3,3), dtype=object)
+    for y, posY in enumerate(range(boxSide, screen_max + 1, boxSide)):
+        for x, posX in enumerate(range(boxSide,screen_max + 1, boxSide)):
+            boxCenter[y,x] = np.array([posX - (boxSide // 2), posY - (boxSide // 2), ""])
+
+    return boxCenter
 
 # Lines
 def drawLines(surface, screen_max : int, boxArea : int) -> None:
@@ -32,7 +42,7 @@ def drawNum(surface, font, boxs) -> None:
             surface.blit(text, textRect)
             nums += 1
     
-def clicked(surface ,pos : list, boxAreas : object, player):
+def clicked(surface ,pos : list, boxAreas : object, player) -> int:
     for rows in boxAreas:
         for cols in rows:
             value = cols[2]
@@ -53,34 +63,47 @@ def clicked(surface ,pos : list, boxAreas : object, player):
                 return 1
     return 0
 
-def isWin(boxAreas : object):
+def isWin(surface, boxAreas : object) -> bool:
     for rows in boxAreas:
         if (rows[0][2] == rows[1][2] == rows[2][2] == "O"):
-            print(f"Player O Was Win")
+            playerWin(surface=surface, player="O")
             return False
         elif (rows[0][2] == rows[1][2] == rows[2][2] == "X"):
-            print(f"Player X Was Win")
+            playerWin(surface=surface, player="X")
             return False
         
     for cols in boxAreas.T:
         if (cols[0][2] == cols[1][2] == cols[2][2] == "O"):
-            print(f"Player O Was Win")
+            playerWin(surface=surface, player="O")
+            
             return False
         elif (cols[0][2] == cols[1][2] == cols[2][2] == "X"):
-            print(f"Player X Was Win 1")
+            playerWin(surface=surface, player="X")            
             return False
     
     if (boxAreas[0][0][2] == boxAreas[1][1][2] == boxAreas[2][2][2] == "O"):
-        print(f"Player O Was Win")
+        playerWin(surface=surface, player="O")        
         return False
     elif (boxAreas[0][0][2] == boxAreas[1][1][2] == boxAreas[2][2][2] == "X"):
-        print(f"Player X Was Win 2")
+        playerWin(surface=surface, player="X")        
         return False
     if (boxAreas[0][2][2] == boxAreas[1][1][2] == boxAreas[2][0][2] == "O"):
-        print(f"Player O Was Win")
+        playerWin(surface=surface, player="O")
         return False
     elif (boxAreas[0][2][2] == boxAreas[1][1][2] == boxAreas[2][0][2] == "X"):
-        print(f"Player X Was Win 3")
+        playerWin(surface=surface, player="X")
         return False
     
     return True
+
+def playerWin(surface, player) -> None:
+    font = pygame.font.SysFont("freesansbold.ttf", 128)
+    text = font.render(f"Player {player} WIN", True, "red")
+    textRect = text.get_rect()
+    textRect.center = (666//2 , 666//2)
+    
+    surface.blit(text, textRect)
+
+
+    
+    

@@ -11,11 +11,7 @@ WHITE = [255, 255, 255]
 
 # Position
 boxSide = 666 // 3
-boxCenter = np.empty((3,3), dtype=object)
-for y, posY in enumerate(range(boxSide, SCREEN_HEIGHT + 1, boxSide)):
-    for x, posX in enumerate(range(boxSide,SCREEN_WIDTH + 1, boxSide)):
-        boxCenter[y,x] = np.array([posX - (boxSide // 2), posY - (boxSide // 2), ""])
-
+boxCenter = getBoxCenter(SCREEN_WIDTH, boxSide=boxSide)
 
 def main():
     running = True
@@ -40,7 +36,7 @@ def main():
                 running = False
             if event.type == MOUSEBUTTONDOWN and move:
                 turn += clicked(screen, event.pos, boxCenter, turn)
-                move = isWin(boxCenter)
+                move = isWin(screen, boxCenter)
 
         pygame.display.update()
 
