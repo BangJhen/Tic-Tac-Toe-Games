@@ -25,7 +25,7 @@ def drawNum(surface, font, boxs) -> None:
     nums = 1
     for rows in (boxs):
         for cols in (rows):
-            text = font.render(str(nums), True, pygame.Color(0,0,0,128))
+            text = font.render(str(nums), True, "black")
             textRect = text.get_rect()
             textRect.center = (int(cols[0]), int(cols[1]))
             
@@ -36,10 +36,10 @@ def clicked(surface ,pos : list, boxAreas : object, player):
     for rows in boxAreas:
         for cols in rows:
             value = cols[2]
-            if (value == "X" or value == "O"):
-                continue
             boxAxis = int(cols[0])
             boxOrd = int(cols[1])
+            if (value == "X" or value == "O"):
+                continue
             
             posAxis = pos[0]
             posOrd = pos[1]
@@ -53,36 +53,34 @@ def clicked(surface ,pos : list, boxAreas : object, player):
                 return 1
     return 0
 
-def isWin(boxAreas : dict, move):
-    if not move:
-        return False
-    boxValueList = [boxArea for boxArea in boxAreas.values()]
-    
-    for rows in range(0, 3):
-        if (boxValueList[rows] == boxValueList[rows + 3] == boxValueList[rows + 6] == "O"):
+def isWin(boxAreas : object):
+    for rows in boxAreas:
+        if (rows[0][2] == rows[1][2] == rows[2][2] == "O"):
             print(f"Player O Was Win")
             return False
-        if (boxValueList[rows] == boxValueList[rows + 3] == boxValueList[rows + 6] == "X"):
-            print(f"Player X Was Win")
-            return False
-    for cols in range(0, 7, 3):
-        if (boxValueList[cols] == boxValueList[cols + 1] == boxValueList[cols + 2] == "O"):
-            print(f"Player O Was Win")
-            return False
-        elif (boxValueList[cols] == boxValueList[cols + 1] == boxValueList[cols + 2] == "X"):
+        elif (rows[0][2] == rows[1][2] == rows[2][2] == "X"):
             print(f"Player X Was Win")
             return False
         
-    if (boxValueList[0] == boxValueList[4] == boxValueList[8] == "O"):
+    for cols in boxAreas.T:
+        if (cols[0][2] == cols[1][2] == cols[2][2] == "O"):
+            print(f"Player O Was Win")
+            return False
+        elif (cols[0][2] == cols[1][2] == cols[2][2] == "X"):
+            print(f"Player X Was Win 1")
+            return False
+    
+    if (boxAreas[0][0][2] == boxAreas[1][1][2] == boxAreas[2][2][2] == "O"):
         print(f"Player O Was Win")
         return False
-    elif (boxValueList[0] == boxValueList[4] == boxValueList[8] == "X"):
-        print(f"Player X Was Win")
+    elif (boxAreas[0][0][2] == boxAreas[1][1][2] == boxAreas[2][2][2] == "X"):
+        print(f"Player X Was Win 2")
         return False
-    elif (boxValueList[2] == boxValueList[4] == boxValueList[6] == "O"):
+    if (boxAreas[0][2][2] == boxAreas[1][1][2] == boxAreas[2][0][2] == "O"):
         print(f"Player O Was Win")
         return False
-    elif (boxValueList[2] == boxValueList[4] == boxValueList[6] == "X"):
-        print(f"Player X Was Win")
+    elif (boxAreas[0][2][2] == boxAreas[1][1][2] == boxAreas[2][0][2] == "X"):
+        print(f"Player X Was Win 3")
         return False
+    
     return True

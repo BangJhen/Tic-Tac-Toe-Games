@@ -40,14 +40,12 @@ def main():
                 running = False
             if event.type == MOUSEBUTTONDOWN and move:
                 turn += clicked(screen, event.pos, boxCenter, turn)
-
-        # move = isWin(boxCenter, move)
+                move = isWin(boxCenter)
 
         pygame.display.update()
 
     pygame.quit()
 
-
-
 if __name__ == "__main__":
     main()
+    
